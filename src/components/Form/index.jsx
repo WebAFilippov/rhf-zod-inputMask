@@ -21,10 +21,9 @@ export const Form = () => {
   })
 
   const onSubmit = async (data) => {
-    const data1 = { ...data, number: Number(data.number.replace(/\D/g, '')) || null }
-    console.log(data1, "res")
+    const fetchData = { ...data, number: Number(data.number.replace(/\D/g, '')) || null }
     setErr(null)
-    await fetch(url, { method: "POST", body: data })
+    await fetch(url, { method: "POST", body: fetchData })
       .then(res => res.json())
       .then(res => console.log(res))
       .catch(error => setErr(error))
