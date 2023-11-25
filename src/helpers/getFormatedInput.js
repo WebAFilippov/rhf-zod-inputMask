@@ -1,4 +1,4 @@
-const getInputNumbersValue = (input) => {
+const getInputNumbersValue = (input) => {  // Функция приводит в форматированому виду qwe123wqert00 => 12300
   let value = input.value.replace(/\D/g, '')
   value = value.length > 6 ? value.slice(0, 6) : value
   return value
@@ -13,7 +13,8 @@ export const onInput = (e) => {
     return "";
   }
 
-  if (inputValue.length > 4) {
+  // Конкат строки 00-00-00
+  if (inputValue.length > 4) { 
     formattedInputValue += `${inputValue.slice(0, 2)}-${inputValue.slice(2, 4)}-${inputValue.slice(4, 6)}`
   } else if (inputValue.length > 2) {
     formattedInputValue += `${inputValue.slice(0, 2)}-${inputValue.slice(2, 4)}`

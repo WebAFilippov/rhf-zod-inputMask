@@ -3,15 +3,16 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 
-import scss from "./Form.module.scss"
 import { onInput } from "../../helpers/getFormatedInput"
 
-const url = 'https://example.com'
+import scss from "./Form.module.scss"
+
+const url = 'https://example.com' // URL сервера
 
 export const Form = () => {
-  const [err, setErr] = useState(null)
+  const [err, setErr] = useState(null) // {status , message} сообщение о ошибке с сервера
 
-  const formSchema = z.object({
+  const formSchema = z.object({  // Схема валидации формы
     email: z.string().email({ message: "Неверный e-mail" }),
     number: z.string().optional()
   });
@@ -21,12 +22,12 @@ export const Form = () => {
   })
 
   const onSubmit = async (data) => {
-    const fetchData = { ...data, number: Number(data.number.replace(/\D/g, '')) || null }
-    setErr(null)
-    await fetch(url, { method: "POST", body: fetchData })
+    const fetchData = { ...data, number: Number(data.number.replace(/\D/g, '')) || null } // Инфо с полей формы. { email: data.email, number: data.number }
+    setErr(null) // Обнуление поля ошибки с сервера перед отправкой запроса
+    await fetch(url, { method: "POST", body: fetchData }) // Запрос на сервер
       .then(res => res.json())
-      .then(res => console.log(res))
-      .catch(error => setErr(error))
+      .then(res => console.log(res)) // Печать ответа 
+      .catch(error => setErr(error)) // Печать ошибки
   }
 
   return (
@@ -43,7 +44,7 @@ export const Form = () => {
               onChange={(e) => { setValue("number", onInput(e)) }} />
         {errors.number?.message && <p className={scss.error}>{errors.number?.message}</p>}
       </div>
-      {err?.message && <p className={scss.errorResponse}>{err.message}</p>}
+      {err?.message && <p className={scss.errorResponse}>Status: {err.status}<br/>Message: {err.message}</p>}
       <button className={scss.button}>SEND</button>
     </form>
   )
